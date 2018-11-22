@@ -3,6 +3,7 @@
 // from the node_modules folder into our application.
 const express = require('express');
 const http = require('http');
+const morgan = require('morgan');
 
 const hostname = 'localhost';
 const port = 3000;
@@ -13,6 +14,11 @@ const port = 3000;
 // node module. So once we say that, then Express provides a bunch
 // of methods that we can use to construct our web server
 const app = express();
+app.use(morgan('dev'));
+
+// We tell Express to serve up the static files from `__dirname` - the
+// root folder of the project
+app.use(express.static(__dirname + '/public'));
 
 // 2. Setup the server using app.use()
 // Inside app.use(), we will declare a function that will be called
@@ -22,7 +28,8 @@ const app = express();
 // - next - the next will be used when you need to invoke additional
 //          middleware tp take care of work on your behalf
 app.use((req, res, next) => {
-    console.log(req.headers);
+    // We don't need to console.log(req.headers) since morgan will log
+    // sufficiently information for us.
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/html');
     res.end('<html><body><h1>This is an Express Server</h1></body></html>');
