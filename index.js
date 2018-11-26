@@ -6,8 +6,9 @@ const http = require('http');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
-// Using dishRouter which is declared in dishRouter.js file
+// Router
 const dishRouter = require('./router/dishRouter');
+const promoRouter = require('./router/promoRouter');
 
 const hostname = 'localhost';
 const port = 3000;
@@ -17,15 +18,18 @@ const port = 3000;
 // We're saying that our application is going to use the express
 // node module. So once we say that, then Express provides a bunch
 // of methods that we can use to construct our web server
-
-// Whenever we need to use a middle-ware, we say app.use()
 const app = express();
+// Whenever we need to use a middle-ware, we say app.use()
 app.use(morgan('dev'));
 // This allows us to parse the body of the request message
 app.use(bodyParser.json());
+
+
 // Mount that router at an endpoint. We will mount a router like below:
 // - The first parameter is the API endpoint
 app.use('/dishes', dishRouter);
+app.use('/promotions', promoRouter);
+
 
 // We tell Express to serve up the static files from `__dirname` - the
 // root folder of the project
