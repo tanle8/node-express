@@ -6,6 +6,9 @@ const http = require('http');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
+// Using dishRouter which is declared in dishRouter.js file
+const dishRouter = require('./router/dishRouter');
+
 const hostname = 'localhost';
 const port = 3000;
 
@@ -15,40 +18,14 @@ const port = 3000;
 // node module. So once we say that, then Express provides a bunch
 // of methods that we can use to construct our web server
 
-// When ever we need to use a middle-ware, we say app.use()
+// Whenever we need to use a middle-ware, we say app.use()
 const app = express();
 app.use(morgan('dev'));
 app.use(bodyParser.json()); // allows us to parse the body of the request message
+// Mount that router at an endpoint. We will mount a router like below:
+// - The first parameter is the API endpoint
+app.use('/dishes', dishRouter);
 
-
-
-// Using app.all(), with the first parameter is endpoint ('/dishes') and
-// the second parameter is the callback function.
-app.all('/dishes', (req, res, next) => {
-    // We are saying when a request comes in for all the requests, no matter which
-    // method is invoked GET, PUT, POST or DELETE for the '/dishes' REST API endpoint
-    // - When you call next() it will continue on to look for additional specifications
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/plain');
-    next();
-});
-
-app.get('/dishes', (req, res, next) => {
-    res.end('Will send all the dishes to you!');
-});
-
-app.post('/dishes', (req, res, next) => {
-    res.end('Will add the dish: ' + req.body.name + ' with details: ' + req.body.description);
-});
-
-app.put('/dishes', (req, res, next) => {
-    res.statusCode = 403;
-    res.end('PUT operation not supported on /dishes');
-});
-
-app.delete('/dishes', (req, res, next) => {
-    res.end('Deleting all the dishes!');
-});
 // ---
 app.get('/dishes/:dishId', (req, res, next) => {
     res.end('Will send details of the dishes: ' + req.params.dishId + ' to you!');
