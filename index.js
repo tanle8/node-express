@@ -21,31 +21,11 @@ const port = 3000;
 // Whenever we need to use a middle-ware, we say app.use()
 const app = express();
 app.use(morgan('dev'));
-app.use(bodyParser.json()); // allows us to parse the body of the request message
+// This allows us to parse the body of the request message
+app.use(bodyParser.json());
 // Mount that router at an endpoint. We will mount a router like below:
 // - The first parameter is the API endpoint
 app.use('/dishes', dishRouter);
-
-// ---
-app.get('/dishes/:dishId', (req, res, next) => {
-    res.end('Will send details of the dishes: ' + req.params.dishId + ' to you!');
-});
-
-app.post('/dishes/:dishId', (req, res, next) => {
-    res.statusCode = 403;
-    res.end('POST operation not supported on /dishes/' + req.params.dishId);
-});
-
-app.put('/dishes/:dishId', (req, res, next) => {
-    res.write('Updating the dish: ' + req.params.dishId + '\n');
-    res.end('Will update the dish: ' + req.body.name +
-        ' with details: ' + req.body.description);
-});
-
-app.delete('/dishes/:dishId', (req, res, next) => {
-    res.end('Deleting dish: ' + req.params.dishId);
-});
-
 
 // We tell Express to serve up the static files from `__dirname` - the
 // root folder of the project
