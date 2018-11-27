@@ -30,7 +30,7 @@ promoRouter.route('/')
 });
 
 // promoID
-dishRouter.route('/:promoId/')
+promoRouter.route('/:promoId/')
 .all((req, res, next) => {
     // We are saying when a request comes in for all the requests, no matter which
     // method is invoked GET, PUT, POST or DELETE for the '/dishes/dishId' REST API endpoint
@@ -40,7 +40,7 @@ dishRouter.route('/:promoId/')
     next();
 })
 .get((req, res, next) => {
-    res.end('Will send details of the dishes: ' + req.params.promoId + ' to you!');
+    res.end('Will send details of the promotion: ' + req.params.promoId + ' to you!');
 })
 .post((req, res, next) => {
     res.statusCode = 403;

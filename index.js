@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 // Router
 const dishRouter = require('./router/dishRouter');
 const promoRouter = require('./router/promoRouter');
+const leaderRouter = require('./router/leaderRouter');
 
 const hostname = 'localhost';
 const port = 3000;
@@ -24,11 +25,11 @@ app.use(morgan('dev'));
 // This allows us to parse the body of the request message
 app.use(bodyParser.json());
 
-
 // Mount that router at an endpoint. We will mount a router like below:
 // - The first parameter is the API endpoint
 app.use('/dishes', dishRouter);
 app.use('/promotions', promoRouter);
+app.use('/leaders', leaderRouter);
 
 
 // We tell Express to serve up the static files from `__dirname` - the
